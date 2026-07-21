@@ -2,8 +2,7 @@
   "name": "requite-api",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module", 
-
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/api.js",
@@ -14,9 +13,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "better-auth": "^1.6.23",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.6"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
