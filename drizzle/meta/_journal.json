@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1784753299773,
+      "tag": "0000_spotty_captain_cross",
+      "breakpoints": true
+    }
+  ]
+}
