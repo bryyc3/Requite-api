@@ -6,4 +6,7 @@ export const auth = betterAuth({
     database: drizzleAdapter(db, {
         provider: "mysql",
     }),    
+    advanced: {
+        cookiePrefix: "Requite"
+    },
 });
