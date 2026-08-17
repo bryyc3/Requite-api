@@ -8,6 +8,7 @@ export async function authStatus(req: Request, res: Response, next: NextFunction
     });
     
     if(!session){
+        console.log("no session")
        return res.status(401).json({ error: "Unauthorized"});
     };
 
