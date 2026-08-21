@@ -1,0 +1,1 @@
+ALTER TABLE `business` ADD `onboard_complete` boolean DEFAULT false NOT NULL;

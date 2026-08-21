@@ -14,9 +14,10 @@ app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }))
-app.all('/authorize/{*any}', toNodeHandler(auth));
 
 app.use(express.json());
+
+app.all('/authorize/{*any}', toNodeHandler(auth));
 
 app.use("/dashboard", dashboardRoutes);
 

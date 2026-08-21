@@ -1,0 +1,2 @@
+ALTER TABLE `business` MODIFY COLUMN `business_owner_email` varchar(255) NOT NULL;--> statement-breakpoint
+ALTER TABLE `business` ADD CONSTRAINT `business_business_owner_email_user_email_fk` FOREIGN KEY (`business_owner_email`) REFERENCES `user`(`email`) ON DELETE cascade ON UPDATE no action;

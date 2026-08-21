@@ -1,0 +1,1 @@
+ALTER TABLE `business` RENAME COLUMN `onboard_complete` TO `onboarded`;

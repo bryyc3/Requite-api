@@ -8,6 +8,27 @@
       "when": 1784753299773,
       "tag": "0000_spotty_captain_cross",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787282868985,
+      "tag": "0001_daffy_gladiator",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787324175598,
+      "tag": "0002_mean_famine",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787338532331,
+      "tag": "0003_whole_barracuda",
+      "breakpoints": true
     }
   ]
 }
