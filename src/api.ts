@@ -1,5 +1,6 @@
 import express, { request } from 'express';
-import dashboardRoutes from './routes/dashboardRoutes.js';
+import businessRoutes from './routes/businessRoutes.js';
+import { businessStatus } from './middleware/businessStatus.js';
 import { toNodeHandler } from "better-auth/node";
 import { auth } from './utils/auth.js';
 import cors from "cors";
@@ -19,7 +20,7 @@ app.use(express.json());
 
 app.all('/authorize/{*any}', toNodeHandler(auth));
 
-app.use("/dashboard", dashboardRoutes);
+app.use("/business", businessRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
