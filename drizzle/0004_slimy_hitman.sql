@@ -1,0 +1,1 @@
+ALTER TABLE `business` ADD `reward_tracker` varchar(255);

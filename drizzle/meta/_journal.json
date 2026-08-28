@@ -29,6 +29,13 @@
       "when": 1787338532331,
       "tag": "0003_whole_barracuda",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787858827272,
+      "tag": "0004_slimy_hitman",
+      "breakpoints": true
     }
   ]
 }

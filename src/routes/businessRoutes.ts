@@ -6,12 +6,11 @@ import {businessStatus} from '../middleware/businessStatus.js';
 
 const router = Router();
 
-router.use(authStatus);
-router.get('/', businessStatus);
-router.get('/info', businessStatus, businessInfo);
-router.get('/rewards', businessStatus, businessRewards);
-router.get('/tiers', businessStatus, businessTiers);
-router.get('/tracking-system', businessStatus, businessTrackingSystem);
+router.use(authStatus, businessStatus);
+router.get('/info', businessInfo);
+router.get('/rewards', businessRewards);
+router.get('/tiers', businessTiers);
+router.get('/tracking-system', businessTrackingSystem);
 
 router.post('/create-business', createBusiness);
 

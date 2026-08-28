@@ -9,6 +9,7 @@ export async function businessStatus(req: Request, res: Response, next: NextFunc
 
     const userBusiness = await db
         .select({
+            businessId: business.id,
             onboarded: business.onboarded,
         })
         .from(business)
@@ -25,5 +26,6 @@ export async function businessStatus(req: Request, res: Response, next: NextFunc
         return res.status(403).json({code: "Onboarding required"})
     }
 
+    req.user.business_id = userBusiness[0].businessId;
     next();
 }

@@ -11,7 +11,8 @@ export const business = mysqlTable("business", {
     business_owner_email: varchar("business_owner_email", {length: 255}).notNull().references(() => user.email, { onDelete: "cascade" }),
     location: varchar("location", {length: 255}),
     owner_id: varchar("business_id", {length: 255}).notNull().references(() => user.id, { onDelete: "cascade" }),
-    onboarded: boolean("onboarded").default(false).notNull()
+    onboarded: boolean("onboarded").default(false).notNull(),
+    reward_tracker: varchar("reward_tracker", {length:255})
 })
 
 export const businessesRelations = relations(business, ({ one, many }) => ({

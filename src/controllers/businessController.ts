@@ -1,11 +1,24 @@
 import { type Request, type Response } from "express";
-import { storeBusinessInfo } from "../services/businessService.js";
+import { storeBusinessInfo, getBusinessOverview} from "../services/businessService.js";
 
 export async function businessInfo(req: Request, res: Response){
-    console.log("business Info")
-    return res.sendStatus(200);
-    
+    try{
+        const owner = req.user.id;
+        const businessId = req.user.business_id;
 
+        if(!businessId){
+            return res.status(403).json({
+                message: "No business ID"
+            })
+        }
+        const overview = await getBusinessOverview(owner, businessId);
+
+        res.status(200).json(overview)
+
+    } catch(error){
+        console.log("business info error", error)
+    }
+    
 };
 
 export async function businessTiers(req: Request, res: Response){
