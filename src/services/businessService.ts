@@ -1,7 +1,7 @@
 import type { Business } from "../types/business.types.js";
 import { business,reward } from "../db/barrel.js";
 import { db } from "../db/dbConfig.js";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 
 export async function getBusinessOverview(ownerId: string, businessId: string){
@@ -9,7 +9,9 @@ export async function getBusinessOverview(ownerId: string, businessId: string){
         .select({
             businessName: business.business_name,
             businessLocation: business.location,
-            rewardTracker: business.reward_tracker
+            pointTracker: business.point_tracker,
+            visitTracker: business.visit_tracker,
+            referralTracker: business.referral_tracker,
         })
         .from(business)
         .where(eq(business.owner_id, ownerId))
@@ -23,13 +25,17 @@ export async function getBusinessOverview(ownerId: string, businessId: string){
     return{
         businessName: businessInfo[0]?.businessName,
         businessLocation: businessInfo[0]?.businessLocation,
-        rewardTracker: businessInfo[0]?.rewardTracker,
+        trackingSystems:{
+            pointTracker: businessInfo[0]?.pointTracker,
+            visitTracker: businessInfo[0]?.visitTracker,
+            referralTracker: businessInfo[0]?.referralTracker,
+        },
         rewardCreated: createdReward.length > 0,
     };
 };
 
 export async function storeBusinessInfo(ownerId: string, info: Business){
-    const businessCreated = await db
+        await db
         .update(business)
         .set({
             business_name: info.name,
@@ -38,4 +44,13 @@ export async function storeBusinessInfo(ownerId: string, info: Business){
         })
         .where(eq(business.owner_id, ownerId))
         
+}
+
+export async function updateTrackingSystem(ownerId: string, trackingType: string, activationStatus: boolean){
+        await db
+        .update(business)
+        .set({
+            [trackingType]: activationStatus
+        })
+        .where(eq(business.owner_id, ownerId))
 }

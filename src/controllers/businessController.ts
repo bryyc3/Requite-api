@@ -1,5 +1,5 @@
 import { type Request, type Response } from "express";
-import { storeBusinessInfo, getBusinessOverview} from "../services/businessService.js";
+import { storeBusinessInfo, getBusinessOverview, updateTrackingSystem} from "../services/businessService.js";
 
 export async function businessInfo(req: Request, res: Response){
     try{
@@ -16,6 +16,7 @@ export async function businessInfo(req: Request, res: Response){
         res.status(200).json(overview)
 
     } catch(error){
+        res.status(500).json({success: false});
         console.log("business info error", error)
     }
     
@@ -26,9 +27,6 @@ export async function businessTiers(req: Request, res: Response){
     res.status(200);
 };
 
-export async function businessTrackingSystem(req: Request, res: Response){
-
-};
 
 export async function businessRewards(req: Request, res: Response){
 
@@ -44,7 +42,25 @@ export async function createBusiness(req: Request, res: Response){
         res.status(200).json({photoPath: "pretend this is photopath"})
 
     } catch(error){
+        res.status(500).json({success: false});
         console.log("business creation error", error)
     }
     
 };
+
+export async function activateTrackingSystem(req: Request, res: Response){
+    try{
+        const owner = req.user.id;
+        const system = req.body.id;
+        const systemActivation = req.body.activated;
+
+        await updateTrackingSystem(owner, system, systemActivation);
+
+        res.status(200).json({success: true});
+
+    } catch(error){
+        res.status(500).json({success: false});
+        console.log("activate tracking system error", error);
+        
+    }
+}
