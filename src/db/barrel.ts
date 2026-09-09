@@ -7,3 +7,4 @@ export * from "./schemas/better-auth/user.js";
 export * from "./schemas/better-auth/account.js";
 export * from "./schemas/better-auth/verification.js";
 export * from "./schemas/better-auth/session.js";
+export * from "./schemas/businessTier.js";

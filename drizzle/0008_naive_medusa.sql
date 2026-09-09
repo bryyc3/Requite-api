@@ -1,0 +1,1 @@
+ALTER TABLE `Business` ADD `tiers_activated` boolean DEFAULT false NOT NULL;--> statement-breakpoint

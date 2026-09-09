@@ -1,5 +1,5 @@
 import type { Business } from "../types/business.types.js";
-import { business,reward } from "../db/barrel.js";
+import { business,businessTier,reward } from "../db/barrel.js";
 import { db } from "../db/dbConfig.js";
 import { eq, sql } from "drizzle-orm";
 
@@ -26,13 +26,38 @@ export async function getBusinessOverview(ownerId: string, businessId: string){
         businessName: businessInfo[0]?.businessName,
         businessLocation: businessInfo[0]?.businessLocation,
         trackingSystems:{
-            pointTracker: businessInfo[0]?.pointTracker,
-            visitTracker: businessInfo[0]?.visitTracker,
-            referralTracker: businessInfo[0]?.referralTracker,
+            point_tracker: businessInfo[0]?.pointTracker,
+            visit_tracker: businessInfo[0]?.visitTracker,
+            referral_tracker: businessInfo[0]?.referralTracker,
         },
         rewardCreated: createdReward.length > 0,
     };
 };
+
+export async function getTierInfo(businessID: string){
+    const tiersActivated = await db
+        .select({
+            activated: business.tiers_activated
+        })
+        .from(business)
+        .where(eq(business.id, businessID))
+        .limit(1);
+
+    if(tiersActivated){
+        const tiers = await db
+        .select({
+            tierName: businessTier.tier_name,
+            pointsRequired: businessTier.points_required
+        })
+        .from(businessTier)
+        .where(eq(businessTier.business_id, businessID))
+
+        return{
+            activated: tiersActivated[0]?.activated,
+            tiers: tiers
+        }; 
+    }
+}
 
 export async function storeBusinessInfo(ownerId: string, info: Business){
         await db
@@ -46,11 +71,36 @@ export async function storeBusinessInfo(ownerId: string, info: Business){
         
 }
 
-export async function updateTrackingSystem(ownerId: string, trackingType: string, activationStatus: boolean){
+export async function updateTrackingSystem(businessId: string, trackingType: string, activationStatus: boolean){
         await db
         .update(business)
         .set({
             [trackingType]: activationStatus
         })
-        .where(eq(business.owner_id, ownerId))
+        .where(eq(business.id, businessId))
+}
+
+export async function updateTierActivation(businessId: string, activationStatus: boolean){
+    await db
+    .update(business)
+    .set({
+        tiers_activated: activationStatus
+    })
+    .where(eq(business.id, businessId))
+
+    if(activationStatus){
+        await db.insert(businessTier).values({
+            tier_name: "",
+            points_required: 0,
+            business_id: businessId
+        })
+
+        return getTierInfo
+    }
+
+    if(!activationStatus){
+        await db
+            .delete(businessTier)
+            .where(eq(businessTier.business_id, businessId))
+    }
 }
