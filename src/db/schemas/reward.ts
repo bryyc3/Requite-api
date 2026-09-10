@@ -7,6 +7,7 @@ export const reward = mysqlTable("Reward", {
     name: varchar("name", {length: 255}).notNull(),
     cost: int("cost").notNull(),
     tier: varchar("tier", {length: 255}),
+    description: varchar("description", {length:255}),
     business_id: varchar("business_id", {length: 255}).references(() => business.id,{onDelete: "set null"})
 })
 

@@ -71,6 +71,13 @@
       "when": 1788966545409,
       "tag": "0009_yummy_wrecking_crew",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1789049976073,
+      "tag": "0010_fancy_zodiak",
+      "breakpoints": true
     }
   ]
 }
