@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 
 export async function businessStatus(req: Request, res: Response, next: NextFunction){
     const user = req.user.id;
-    console.log("business status hit")
 
     const userBusiness = await db
         .select({

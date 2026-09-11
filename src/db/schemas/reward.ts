@@ -4,6 +4,7 @@ import { business } from "./business.js";
 import { businessTier } from "./businessTier.js";
 
 export const reward = mysqlTable("Reward", {
+    id:  varchar("id", { length: 36 }).primaryKey(),
     name: varchar("name", {length: 255}).notNull(),
     cost: int("cost").notNull(),
     tier: varchar("tier", {length: 255}),

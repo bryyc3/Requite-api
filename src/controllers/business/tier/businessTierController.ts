@@ -16,8 +16,10 @@ export async function businessTiers(req: Request, res: Response){
         res.status(200).json(tierInfo);
 
     } catch(error){
-        res.status(500).json({success: false});
-        console.log("tiers error", error)
+        return res.status(400).json({
+            success: false,
+            message: "Something went wrong, please try again"
+        })
     }
     
 };
@@ -37,8 +39,9 @@ export async function toggleTiers(req: Request, res: Response){
         res.status(200).json({success: true, tierInfo});
 
     } catch(error){
-        res.status(500).json({success: false});
-        console.log("activate tracking system error", error);
-        
+        return res.status(400).json({
+            success: false,
+            message: "Something went wrong, please try again"
+        })
     }
 }

@@ -7,17 +7,21 @@ export async function businessInfo(req: Request, res: Response){
         const businessId = req.user.business_id;
 
         if(!businessId){
-            return res.status(403).json({
-                message: "No business ID"
+            return res.status(500).json({
+                success: false,
+                message: "There was no business associated with your request please refresh and try again"
             })
+            
         }
         const overview = await getBusinessOverview(owner, businessId);
 
         res.status(200).json(overview)
 
     } catch(error){
-        res.status(500).json({success: false});
-        console.log("business info error", error)
+        return res.status(400).json({
+            success: false,
+            message: "Something went wrong, please try again"
+        })
     }
     
 };
@@ -32,30 +36,45 @@ export async function createBusiness(req: Request, res: Response){
         res.status(200).json({photoPath: "pretend this is photopath"})
 
     } catch(error){
-        res.status(500).json({success: false});
-        console.log("business creation error", error)
+        return res.status(400).json({
+            success: false,
+            message: "Something went wrong, please try again"
+        })
     }
     
 };
 
 export async function toggleTrackingSystem(req: Request, res: Response){
     try{
+        const userId = req.user.id;
         const businessId = req.user.business_id;
         const system = req.body.id;
         const systemActivation = req.body.activated;
 
         if(!businessId){
-            res.status(500).json({success: false})
-            return
+            return res.status(500).json({
+                success: false,
+                message: "There was no business associated with your request please refresh and try again"
+            })
+            
         }
-
+        
         await updateTrackingSystem(businessId, system, systemActivation);
 
         res.status(200).json({success: true});
 
     } catch(error){
-        res.status(500).json({success: false});
-        console.log("activate tracking system error", error);
+        if(error instanceof Error){
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            })
+        }
+
+        return res.status(400).json({
+            success: false,
+            message: "Something went wrong, please try again"
+        })
         
     }
 }

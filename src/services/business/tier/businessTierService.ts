@@ -3,7 +3,7 @@ import { db } from "../../../db/dbConfig.js";
 import { eq } from "drizzle-orm";
 
 export async function getTierInfo(businessID: string){
-    const tiersActivated = await db
+    const [tiersActivated] = await db
         .select({
             activated: business.tiers_activated
         })
@@ -11,7 +11,7 @@ export async function getTierInfo(businessID: string){
         .where(eq(business.id, businessID))
         .limit(1);
 
-    if(tiersActivated){
+    if(tiersActivated?.activated){
         const tiers = await db
         .select({
             tierName: businessTier.tier_name,
@@ -21,9 +21,14 @@ export async function getTierInfo(businessID: string){
         .where(eq(businessTier.business_id, businessID))
 
         return{
-            activated: tiersActivated[0]?.activated,
+            activated: tiersActivated.activated,
             tiers: tiers
         }; 
+    } else {
+        return{
+            tiersActivated: tiersActivated?.activated,
+            tiers: []
+        }
     }
 }
 
@@ -36,18 +41,18 @@ export async function updateTierActivation(businessId: string, activationStatus:
     .where(eq(business.id, businessId))
 
     if(activationStatus){
-        await db.insert(businessTier).values({
+       const [tierActivated] = await db
+        .insert(businessTier)
+        .values({
             tier_name: "",
             points_required: 0,
             business_id: businessId
         })
-
-        return getTierInfo
     }
 
     if(!activationStatus){
         await db
-            .delete(businessTier)
-            .where(eq(businessTier.business_id, businessId))
+        .delete(businessTier)
+        .where(eq(businessTier.business_id, businessId))
     }
 }

@@ -11,7 +11,6 @@ export async function authStatus(req: Request, res: Response, next: NextFunction
         console.log("Unauth")
        return res.status(401).json({ code: "Unauthorized"});
     };
-    console.log("auth hit")
     req.user = {
         id: session.user.id
     }

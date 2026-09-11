@@ -78,6 +78,27 @@
       "when": 1789049976073,
       "tag": "0010_fancy_zodiak",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1789066812798,
+      "tag": "0011_rare_shadow_king",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1789067151217,
+      "tag": "0012_high_millenium_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1789067165489,
+      "tag": "0013_sour_greymalkin",
+      "breakpoints": true
     }
   ]
 }
