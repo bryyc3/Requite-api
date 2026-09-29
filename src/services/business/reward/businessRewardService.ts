@@ -32,11 +32,25 @@ export async function getRewards(businessId: string){
 }
 
 export async function storeReward(businessId: string, rewardInfo: Reward){
+    const [matchingReward] = await db
+        .select({
+            normalized_name: reward.normalized_name
+        })
+        .from(reward)
+        .where(and(
+                eq(reward.business_id, businessId),
+                eq(reward.normalized_name, rewardInfo.name.trim())
+        ))
+        if(matchingReward){
+            throw new Error("Cannot create another reward with the same name");
+        }
+
     await db
         .insert(reward)
         .values({
             id: rewardInfo.id,
             name: rewardInfo.name,
+            normalized_name: rewardInfo.name.trim(),
             cost: rewardInfo.cost,
             description: rewardInfo.description,
             business_id: businessId
@@ -48,7 +62,7 @@ export async function storeReward(businessId: string, rewardInfo: Reward){
 }
 
 export async function alterReward(businessId: string, rewardInfo: Reward){
-    const alteringReward= await db
+   await db
     .update(reward)
     .set({
         name: rewardInfo.name,
@@ -73,9 +87,9 @@ export async function removeReward(businessId: string, rewardId: string){
         .where(eq(reward.business_id, businessId))
         .limit(2);
     
-        if(createdReward.length == 1){
-            throw new Error("At least one reward must be created");
-        }
+    if(createdReward.length == 1){
+        throw new Error("At least one reward must be created");
+    }
     
     await db
     .delete(reward)

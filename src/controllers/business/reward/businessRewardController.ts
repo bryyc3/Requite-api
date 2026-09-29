@@ -19,6 +19,7 @@ export async function businessRewards(req: Request, res: Response){
         res.status(200).json(rewards);
 
     } catch(error){
+        
         return res.status(400).json({
             success: false,
             message: "Something went wrong, please try again"
@@ -40,12 +41,18 @@ export async function createReward(req: Request, res: Response){
             ...req.body.reward,
             id: randomUUID()
         };
-
+        
         const rewardCreated = await storeReward(businessId, rewardInfo);
 
         res.status(200).json(rewardCreated.rewardInfo)
 
     } catch(error){
+        if(error instanceof Error){
+            return res.status(400).json({
+                message: error.message
+            })
+        }
+
         return res.status(400).json({
             success: false,
             message: "Something went wrong, please try again"

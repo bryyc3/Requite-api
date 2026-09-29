@@ -1,16 +1,20 @@
 import { relations } from "drizzle-orm";
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlTable, unique, varchar } from "drizzle-orm/mysql-core";
 import { business } from "./business.js";
 import { businessTier } from "./businessTier.js";
 
 export const reward = mysqlTable("Reward", {
     id:  varchar("id", { length: 36 }).primaryKey(),
     name: varchar("name", {length: 255}).notNull(),
+    normalized_name: varchar("normalized_name", { length: 255 }).notNull(),
     cost: int("cost").notNull(),
-    tier: varchar("tier", {length: 255}),
+    tier: varchar("tier", {length: 36}),
     description: varchar("description", {length:255}),
     business_id: varchar("business_id", {length: 255}).references(() => business.id,{onDelete: "set null"})
-})
+}, (table) => [
+  unique("reward_name")
+      .on(table.business_id, table.name),
+]);
 
 export const rewardRelations = relations(reward, ({ one }) => ({
     business: one(business, {

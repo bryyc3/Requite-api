@@ -31,6 +31,8 @@ export async function createBusiness(req: Request, res: Response){
         const owner = req.user.id;
         const businessInfo = req.body;
 
+        console.log(businessInfo)
+
         await storeBusinessInfo(owner, businessInfo);
 
         res.status(200).json({photoPath: "pretend this is photopath"})

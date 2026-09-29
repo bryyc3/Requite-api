@@ -13,7 +13,8 @@ export type Reward={
 }
 
 export type Tier = {
+    id: string,
     name: string,
-    pointsRequired: number,
+    points: number,
     exclusiveRewards?: Reward[]
 }

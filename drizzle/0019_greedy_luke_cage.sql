@@ -1,0 +1,1 @@
+ALTER TABLE `Reward` MODIFY COLUMN `tier` varchar(36);
