@@ -170,3 +170,18 @@ export async function alterTier(businessId: string, tierInfo: Tier){
         tierInfo
     }
 }
+
+export async function removeTier(businessId: string, tierId: string){
+    await db
+    .delete(businessTier)
+    .where(and(
+            eq(businessTier.business_id, businessId),
+            eq(businessTier.id, tierId))
+    );
+
+    await db
+    .update(reward)
+    .set({tier: null})
+    .where(eq(reward.tier, tierId))
+    
+}

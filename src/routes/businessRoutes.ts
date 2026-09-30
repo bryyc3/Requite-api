@@ -3,7 +3,7 @@ import { authStatus } from "../middleware/authStatus.js";
 import {businessStatus} from '../middleware/businessStatus.js';
 import { businessInfo, createBusiness, toggleTrackingSystem } from "../controllers/business/info/businessInfoController.js";
 import { businessRewards, createReward, deleteReward, updateReward } from "../controllers/business/reward/businessRewardController.js";
-import { businessTiers, createNewTier, toggleTiers, updateTier } from "../controllers/business/tier/businessTierController.js";
+import { businessTiers, createNewTier, deleteTier, toggleTiers, updateTier } from "../controllers/business/tier/businessTierController.js";
 
 
 const router = Router();
@@ -25,5 +25,6 @@ router.put('/update-reward', updateReward);
 router.put('/update-tier', updateTier)
 
 router.delete('/delete-reward', deleteReward);
+router.delete('/delete-tier', deleteTier);
 
 export default router;

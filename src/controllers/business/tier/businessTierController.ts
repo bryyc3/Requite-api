@@ -1,5 +1,5 @@
 import { type Request, type Response } from "express";
-import { alterTier, createTier, getTierInfo, updateTierActivation } from "../../../services/business/tier/businessTierService.js";
+import { alterTier, createTier, getTierInfo, removeTier, updateTierActivation } from "../../../services/business/tier/businessTierService.js";
 import { randomUUID } from "crypto";
 
 export async function businessTiers(req: Request, res: Response){
@@ -17,6 +17,11 @@ export async function businessTiers(req: Request, res: Response){
         res.status(200).json(tierInfo);
 
     } catch(error){
+        if(error instanceof Error){
+            return res.status(400).json({
+                message: error.message
+            })
+        }
         console.log(error)
         return res.status(400).json({
             success: false,
@@ -41,7 +46,11 @@ export async function toggleTiers(req: Request, res: Response){
         res.status(200).json({success: true, tierInfo});
 
     } catch(error){
-
+        if(error instanceof Error){
+            return res.status(400).json({
+                message: error.message
+            })
+        }
         console.log(error)
         return res.status(400).json({
             success: false,
@@ -71,6 +80,11 @@ export async function createNewTier(req: Request, res: Response){
         res.status(200).json({success: true, tier: newTier.tierInfo});
 
     } catch(error){
+        if(error instanceof Error){
+            return res.status(400).json({
+                message: error.message
+            })
+        }
         return res.status(400).json({
             success: false,
             message: "Something went wrong, please try again"
@@ -94,6 +108,11 @@ export async function updateTier(req: Request, res: Response){
         res.status(200).json({success: true, tier: updatedTier.tierInfo});
 
     } catch(error){
+        if(error instanceof Error){
+            return res.status(400).json({
+                message: error.message
+            })
+        }
         return res.status(400).json({
             success: false,
             message: "Something went wrong, please try again"
@@ -101,3 +120,31 @@ export async function updateTier(req: Request, res: Response){
     }
 }
 
+export async function deleteTier(req: Request, res: Response){
+    try{
+        const businessId = req.user.business_id;
+        const tierId = req.body.tierId;
+
+        if(!businessId){
+            return res.status(403).json({
+                message: "No business ID"
+            })
+        }
+
+        await removeTier(businessId, tierId);
+
+
+        res.status(200).json({success: true, tier: tierId});
+
+    } catch(error){
+        if(error instanceof Error){
+            return res.status(400).json({
+                message: error.message
+            })
+        }
+
+        return res.status(400).json({
+            message: "Something went wrong, please try again"
+        })
+    }
+}
